@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "oss.js",
+  "sourceRoot": "",
+  "sources": [
+    "oss.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA;;EAAA,GAAA,GAAM,OAAA,CAAQ,SAAR,CAAkB,CAAC;;EAEzB,MAAM,CAAC,OAAP,GAAiB,SAAC,IAAD;WACX,IAAA,GAAA,CAAI;MACN,MAAA,EAAQ,IAAI,CAAC,QADP;MAEN,WAAA,EAAa,IAAI,CAAC,WAFZ;MAGN,eAAA,EAAiB,IAAI,CAAC,eAHhB;MAIN,MAAA,EAAQ,IAAI,CAAC,MAJP;KAAJ;EADW;AAFjB"
+}
