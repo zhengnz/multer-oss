@@ -1,0 +1,7 @@
+.idea/
+node_modules/
+
+test.coffee
+test.js
+test.js.map
+test.jpg

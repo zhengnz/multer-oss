@@ -1,0 +1,29 @@
+{
+  "name": "multer-oss",
+  "version": "0.1.1",
+  "description": "multer oss storage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhengnz/multer-oss.git"
+  },
+  "keywords": [
+    "multer",
+    "oss"
+  ],
+  "author": "'Norman' <'332535694@qq.com'>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhengnz/multer-oss/issues"
+  },
+  "homepage": "https://github.com/zhengnz/multer-oss#readme",
+  "dependencies": {
+    "ali-oss": "^4.4.4",
+    "bluebird": "^3.4.6",
+    "mime-types": "^2.1.12",
+    "moment": "^2.15.1"
+  }
+}
