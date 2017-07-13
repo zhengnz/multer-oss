@@ -25,7 +25,5 @@
     "bluebird": "^3.4.6",
     "mime-types": "^2.1.12",
     "moment": "^2.15.1"
-  },
-  "_from": "multer-oss@0.2.1",
-  "_resolved": "http://registry.npm.taobao.org/multer-oss/download/multer-oss-0.2.1.tgz"
+  }
 }
