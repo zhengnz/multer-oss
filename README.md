@@ -9,6 +9,7 @@ oss_storage = oss {
   accessKeySecret: 'xxxxx'
   endpoint: 'oss-cn-beijing'
   bucket: 'xxxx'
+  timeout: 12 * 60 * 60 * 1000 #超时时间12小时，不设置默认30分钟
   filename: (req, file, cb) ->
     cb null, file.fieldname + '-' + Date.now()
 }
