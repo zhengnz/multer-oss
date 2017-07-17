@@ -1,4 +1,6 @@
 moment = require 'moment'
+concat = require 'concat-stream'
+Promise = require 'bluebird'
 OSS = require './libs/oss'
 
 getDestination = (req, file, cb) ->
@@ -6,6 +8,11 @@ getDestination = (req, file, cb) ->
 
 getFileName = (req, file, cb) ->
   cb null, moment().format 'x'
+
+getBuffer = (file) ->
+  new Promise (resolve, reject) ->
+    file.stream.pipe concat (data) ->
+      resolve data
 
 class ossStorage
   constructor: (@opts, @debug=false) ->
@@ -51,16 +58,19 @@ class ossStorage
 
         finalPath = "#{destination}/#{filename}"
 
-        @oss.putStream finalPath, file.stream, {
-          contentLength: file.size
-          timeout: @opts.timeout or 30 * 60 * 60 * 1000 #默认超时30分钟可以通过timeout来设置
-        }
-        .then ->
+        Promise.all [
+          getBuffer file
+          @oss.putStream finalPath, file.stream, {
+            contentLength: file.size
+            timeout: @opts.timeout or 30 * 60 * 60 * 1000 #默认超时30分钟可以通过timeout来设置
+          }
+        ]
+        .spread (buffer) ->
           cb null, {
             destination: destination
             filename: filename
             path: finalPath
-            buffer: file.stream
+            buffer
           }
         .catch cb
 
