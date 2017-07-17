@@ -80,7 +80,8 @@
               return cb(null, {
                 destination: destination,
                 filename: filename,
-                path: finalPath
+                path: finalPath,
+                buffer: file.stream
               });
             })["catch"](cb);
           });

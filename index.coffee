@@ -60,6 +60,7 @@ class ossStorage
             destination: destination
             filename: filename
             path: finalPath
+            buffer: file.stream
           }
         .catch cb
 
