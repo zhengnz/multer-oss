@@ -1,5 +1,6 @@
 moment = require 'moment'
 concat = require 'concat-stream'
+fileType = require 'file-type'
 Promise = require 'bluebird'
 OSS = require './libs/oss'
 
@@ -57,15 +58,25 @@ class ossStorage
           return cb err
 
         finalPath = "#{destination}/#{filename}"
+        buffer = null
 
-        Promise.all [
-          getBuffer file
-          @oss.putStream finalPath, file.stream, {
+        getBuffer file
+        .then (chunk) =>
+          buffer = chunk
+          file_type = fileType(buffer)
+          if @opts.extensionsExt and file_type.ext not in @opts.extensionsExt
+            return Promise.reject @opts.extensionsError
+          if @opts.extensionsMime and file_type.mime not in @opts.extensionsMime
+             return Promise.reject @opts.extensionsError
+          if @opts.extensionsExtReg and not @opts.extensionsExtReg.test file_type.ext
+            return Promise.reject @opts.extensionsError
+          if @opts.extensionsMimeReg and not @opts.extensionsMimeReg.test file_type.mime
+            return Promise.reject @opts.extensionsError
+          @oss.put finalPath, buffer, {
             contentLength: file.size
             timeout: @opts.timeout or 30 * 60 * 60 * 1000 #默认超时30分钟可以通过timeout来设置
           }
-        ]
-        .spread (buffer) ->
+        .then ->
           cb null, {
             destination: destination
             filename: filename

@@ -1,6 +1,6 @@
 {
   "name": "multer-oss",
-  "version": "0.2.7",
+  "version": "1.0.0",
   "description": "multer oss storage",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "ali-oss": "^4.4.4",
     "bluebird": "^3.4.6",
     "concat-stream": "^1.6.0",
+    "file-type": "^5.2.0",
     "mime-types": "^2.1.12",
     "moment": "^2.15.1"
   }
