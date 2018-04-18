@@ -72,7 +72,7 @@ class ossStorage
             return Promise.reject @opts.extensionsError
           if @opts.extensionsMimeReg and not @opts.extensionsMimeReg.test file_type.mime
             return Promise.reject @opts.extensionsError
-          @oss.put finalPath, buffer, {
+          @oss.putStream finalPath, file.stream, {
             contentLength: file.size
             timeout: @opts.timeout or 30 * 60 * 60 * 1000 #默认超时30分钟可以通过timeout来设置
           }

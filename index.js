@@ -105,7 +105,7 @@
               if (_this.opts.extensionsMimeReg && !_this.opts.extensionsMimeReg.test(file_type.mime)) {
                 return Promise.reject(_this.opts.extensionsError);
               }
-              return _this.oss.put(finalPath, buffer, {
+              return _this.oss.putStream(finalPath, file.stream, {
                 contentLength: file.size,
                 timeout: _this.opts.timeout || 30 * 60 * 60 * 1000
               });
