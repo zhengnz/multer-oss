@@ -76,8 +76,6 @@
       }
     };
 
-    ossStorage.prototype.checkType = function(buffer) {};
-
     ossStorage.prototype.__handleFile = function(req, file, cb) {
       return this.getDestination(req, file, (function(_this) {
         return function(err, destination) {
@@ -85,40 +83,38 @@
             return cb(err);
           }
           return _this.getFileName(req, file, function(err, filename) {
-            var finalPath, props;
+            var buffer, finalPath;
             if (err) {
               return cb(err);
             }
             finalPath = destination + "/" + filename;
-            props = {
-              oss: _this.oss.putStream(finalPath, file.stream, {
+            buffer = null;
+            return getBuffer(file).then(function(chunk) {
+              var file_type, ref, ref1;
+              buffer = chunk;
+              file_type = fileType(buffer);
+              if (_this.opts.extensionsExt && (ref = file_type.ext, indexOf.call(_this.opts.extensionsExt, ref) < 0)) {
+                return Promise.reject(_this.opts.extensionsError);
+              }
+              if (_this.opts.extensionsMime && (ref1 = file_type.mime, indexOf.call(_this.opts.extensionsMime, ref1) < 0)) {
+                return Promise.reject(_this.opts.extensionsError);
+              }
+              if (_this.opts.extensionsExtReg && !_this.opts.extensionsExtReg.test(file_type.ext)) {
+                return Promise.reject(_this.opts.extensionsError);
+              }
+              if (_this.opts.extensionsMimeReg && !_this.opts.extensionsMimeReg.test(file_type.mime)) {
+                return Promise.reject(_this.opts.extensionsError);
+              }
+              return _this.oss.put(finalPath, buffer, {
                 contentLength: file.size,
                 timeout: _this.opts.timeout || 30 * 60 * 60 * 1000
-              }),
-              buffer: getBuffer(file)
-            };
-            return Promise.props(props).then(function(result) {
-              var file_type, ref, ref1;
-              if (_this.opts.extensionsExt || _this.opts.extensionsMime || _this.opts.extensionsExtReg || _this.opts.extensionsMimeReg) {
-                file_type = fileType(result.buffer);
-                if (_this.opts.extensionsExt && (ref = file_type.ext, indexOf.call(_this.opts.extensionsExt, ref) < 0)) {
-                  return Promise.reject(_this.opts.extensionsError);
-                }
-                if (_this.opts.extensionsMime && (ref1 = file_type.mime, indexOf.call(_this.opts.extensionsMime, ref1) < 0)) {
-                  return Promise.reject(_this.opts.extensionsError);
-                }
-                if (_this.opts.extensionsExtReg && !_this.opts.extensionsExtReg.test(file_type.ext)) {
-                  return Promise.reject(_this.opts.extensionsError);
-                }
-                if (_this.opts.extensionsMimeReg && !_this.opts.extensionsMimeReg.test(file_type.mime)) {
-                  return Promise.reject(_this.opts.extensionsError);
-                }
-              }
+              });
+            }).then(function() {
               return cb(null, {
                 destination: destination,
                 filename: filename,
                 path: finalPath,
-                buffer: result.buffer
+                buffer: buffer
               });
             })["catch"](cb);
           });
@@ -142,4 +138,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index.bak.js.map

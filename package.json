@@ -1,6 +1,6 @@
 {
   "name": "multer-oss",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "multer oss storage",
   "main": "index.js",
   "scripts": {
